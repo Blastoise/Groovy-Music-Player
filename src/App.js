@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import { faRandom, faCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const electron = window.require("electron");
 const ipcRenderer = electron.ipcRenderer;
@@ -13,7 +11,7 @@ class App extends Component {
     loop: false,
     shuffle: false,
     songs: [],
-    counter: 0,
+    counter: -1,
     title: "Incomplete",
     artist: "Backstreet Boys",
     image: "./wp2793970.jpg",
@@ -27,74 +25,97 @@ class App extends Component {
     this.setState({ play: !this.state.play });
   };
 
-  componentDidUpdate() {
-    if (this.state.play === true) {
-      this.audio.play();
+  componentDidMount() {
+    ipcRenderer.on("modal-file-results", (event, args) => {
+      console.log(args[0].title);
+      this.addSongs(args);
+    });
+
+    ipcRenderer.on("fetch-song", (event, args) => {
+      console.log(args);
+      this.setState({ currentSong: args.music });
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.counter !== this.state.counter) {
+      console.log("Request bheje hai");
+      ipcRenderer.send(
+        "fetch-song",
+        this.state.songs[this.state.counter].filePath
+      );
     }
+    // else {
+    //   if (this.state.play === true) {
+    //     this.audio.pause();
+    //     this.audio.load();
+    //     this.audio.play();
+    //   }
+    // }
   }
 
   addSongs = (args) => {
     console.log("Adding song");
-    // this.audio = new Audio(args[0].music);
+
     this.setState({
       songs: args,
       title: args[0].title,
       artist: args[0].artist,
       imageBuffer: args[0].imageBuffer,
-      currentSong: args[0].music,
+      counter: 0,
     });
   };
 
   nextSong = () => {
-    if (this.state.play === true) {
-      this.audio.pause();
-    }
+    // if (this.state.play === true) {
+    //   this.audio.pause();
+    // }
     if (this.state.songs.length - 1 >= this.state.counter + 1) {
       const count = this.state.counter;
-      // this.audio = new Audio(this.state.songs[count + 1].music);
+
       this.setState({
         title: this.state.songs[count + 1].title,
         artist: this.state.songs[count + 1].artist,
         imageBuffer: this.state.songs[count + 1].imageBuffer,
-        currentSong: this.state.songs[count + 1].music,
+        // currentSong: this.state.songs[count + 1].music,
         counter: count + 1,
+        play: false,
       });
     } else {
-      // this.audio = new Audio(this.state.songs[0].music);
       this.setState({
         title: this.state.songs[0].title,
         artist: this.state.songs[0].artist,
         imageBuffer: this.state.songs[0].imageBuffer,
-        currentSong: this.state.songs[0].music,
+        // currentSong: this.state.songs[0].music,
         counter: 0,
+        play: false,
       });
     }
   };
 
   prevSong = () => {
-    if (this.state.play === true) {
-      this.audio.pause();
-    }
+    // if (this.state.play === true) {
+    //   this.audio.pause();
+    // }
     if (this.state.counter > 0) {
       const count = this.state.counter;
-      // this.audio = new Audio(this.state.songs[count - 1].music);
+
       this.setState({
         title: this.state.songs[count - 1].title,
         artist: this.state.songs[count - 1].artist,
         imageBuffer: this.state.songs[count - 1].imageBuffer,
-        currentSong: this.state.songs[count - 1].music,
+        // currentSong: this.state.songs[count - 1].music,
         counter: count - 1,
+        play: false,
       });
     } else {
-      // this.audio = new Audio(
-      //   this.state.songs[this.state.songs.length - 1].music
-      // );
       this.setState({
         title: this.state.songs[this.state.songs.length - 1].title,
         artist: this.state.songs[this.state.songs.length - 1].artist,
         imageBuffer: this.state.songs[this.state.songs.length - 1].imageBuffer,
-        currentSong: this.state.songs[this.state.songs.length - 1].music,
+        // currentSong: this.state.songs[this.state.songs.length - 1].music,
         counter: this.state.songs.length - 1,
+        play: false,
       });
     }
   };
@@ -110,19 +131,19 @@ class App extends Component {
     this.setState({ shuffle: !this.state.shuffle });
   };
 
-  changeAudio = (args) => {
-    console.log("here");
+  // changeAudio = (args) => {
+  //   console.log("here");
 
-    this.setState({
-      title: args.title,
-      artist: args.artist,
-      imageBuffer: args.imageBuffer,
-      audio: new Audio(args.music),
-    });
-  };
+  //   this.setState({
+  //     title: args.title,
+  //     artist: args.artist,
+  //     imageBuffer: args.imageBuffer,
+  //     audio: new Audio(args.music),
+  //   });
+  // };
 
   styleObject = () => {
-    if (this.state.imageBuffer === "") {
+    if (!this.state.imageBuffer) {
       return {
         backgroundImage: `url(${this.state.image})`,
         backgroundSize: "cover",
@@ -146,6 +167,7 @@ class App extends Component {
     return (
       <div>
         <audio
+          hidden
           src={this.state.currentSong}
           loop={this.state.loop}
           onEnded={this.nextSong}
@@ -156,13 +178,6 @@ class App extends Component {
         <button
           onClick={() => {
             ipcRenderer.send("modal-file-content", "done");
-            ipcRenderer.on("modal-file-results", (event, args) => {
-              console.log(args[0].title);
-              // console.log(args);
-              // console.log(this);
-              this.addSongs(args);
-              // this.changeAudio(args);
-            });
           }}
         >
           Get songs
@@ -173,7 +188,7 @@ class App extends Component {
             <div className="music-container">
               <img
                 src={
-                  this.state.imageBuffer === ""
+                  !this.state.imageBuffer
                     ? this.state.image
                     : `data:jpeg;base64,${this.state.imageBuffer}`
                 }
@@ -185,25 +200,35 @@ class App extends Component {
               </div>
             </div>
             <div className="music-controls">
-              <img src="./backward.svg" alt="" onClick={this.prevSong} />
+              <img
+                src="./backward.svg"
+                alt=""
+                className="prev-button"
+                onClick={this.prevSong}
+              />
               <img
                 src={this.state.play === true ? "./pause.svg" : "./play.svg"}
                 alt=""
+                className="play-button"
                 onClick={this.playPauseHandler}
               />
-              <img src="./forward.svg" alt="" onClick={this.nextSong} />
-              <FontAwesomeIcon
-                icon={faRandom}
-                style={{ color: "black" }}
-                mask={faCircle}
-                size="3x"
+              <img
+                src="./forward.svg"
+                alt=""
+                className="next-button"
+                onClick={this.nextSong}
               />
-
+              <img
+                src="./shuffle.svg"
+                alt=""
+                className="shuffle-button"
+                onClick={this.handleShuffle}
+              />
               <img
                 src="./repeat.svg"
                 alt=""
                 onClick={this.repeatSong}
-                className="symbol"
+                className="repeat-button"
               />
             </div>
           </div>
