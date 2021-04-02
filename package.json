@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.6.2",
     "dataurl": "^0.1.0",
     "electron-is-dev": "^1.2.0",
+    "file-type": "^16.3.0",
     "id3js": "^2.1.1",
     "mp3-duration": "^1.1.0",
     "node-id3": "^0.2.2",
