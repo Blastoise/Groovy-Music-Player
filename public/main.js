@@ -68,6 +68,29 @@ ipcMain.on("modal-file-content", (event, arg) => {
   openFolderDialog(event);
 });
 
+ipcMain.on("fetch-song", (event, arg) => {
+  console.log(arg);
+  getSongDataURI(arg)
+    .then((data) => {
+      console.log("SONG FETCHED");
+      event.sender.send("fetch-song", data);
+    })
+    .catch((err) => console.log(err));
+});
+
+const getSongDataURI = (filePath) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, (err, data) => {
+      if (err) reject(err);
+      else {
+        resolve({
+          music: dataurl.convert({ data, mimetype: "audio/mp3" }),
+        });
+      }
+    });
+  });
+};
+
 const getDuration = (filePath) => {
   const durationPromise = new Promise((resolve, reject) => {
     mp3Duration(filePath, (err, duration) => {
@@ -166,7 +189,7 @@ const convertSong = (filesArray) => {
           if (err) reject(err);
           else {
             resolve({
-              music: dataurl.convert({ data, mimetype: "audio/mp3" }),
+              // music: dataurl.convert({ data, mimetype: "audio/mp3" }),
               filePath: file,
             });
           }
