@@ -20,7 +20,6 @@ class App extends Component {
   };
   audio = null;
   playPauseHandler = () => {
-    // console.log(this.state.play);
     this.state.play === true ? this.audio.pause() : this.audio.play();
     this.setState({ play: !this.state.play });
   };
@@ -77,7 +76,6 @@ class App extends Component {
         title: this.state.songs[count + 1].title,
         artist: this.state.songs[count + 1].artist,
         imageBuffer: this.state.songs[count + 1].imageBuffer,
-        // currentSong: this.state.songs[count + 1].music,
         counter: count + 1,
         play: false,
       });
@@ -86,7 +84,6 @@ class App extends Component {
         title: this.state.songs[0].title,
         artist: this.state.songs[0].artist,
         imageBuffer: this.state.songs[0].imageBuffer,
-        // currentSong: this.state.songs[0].music,
         counter: 0,
         play: false,
       });
@@ -104,7 +101,6 @@ class App extends Component {
         title: this.state.songs[count - 1].title,
         artist: this.state.songs[count - 1].artist,
         imageBuffer: this.state.songs[count - 1].imageBuffer,
-        // currentSong: this.state.songs[count - 1].music,
         counter: count - 1,
         play: false,
       });
@@ -113,7 +109,6 @@ class App extends Component {
         title: this.state.songs[this.state.songs.length - 1].title,
         artist: this.state.songs[this.state.songs.length - 1].artist,
         imageBuffer: this.state.songs[this.state.songs.length - 1].imageBuffer,
-        // currentSong: this.state.songs[this.state.songs.length - 1].music,
         counter: this.state.songs.length - 1,
         play: false,
       });
@@ -122,7 +117,6 @@ class App extends Component {
 
   repeatSong = () => {
     console.log(!this.state.loop);
-    // this.audio.loop = !this.state.loop;
 
     this.setState({ loop: !this.state.loop });
   };
@@ -130,17 +124,6 @@ class App extends Component {
   handleShuffle = () => {
     this.setState({ shuffle: !this.state.shuffle });
   };
-
-  // changeAudio = (args) => {
-  //   console.log("here");
-
-  //   this.setState({
-  //     title: args.title,
-  //     artist: args.artist,
-  //     imageBuffer: args.imageBuffer,
-  //     audio: new Audio(args.music),
-  //   });
-  // };
 
   styleObject = () => {
     if (!this.state.imageBuffer) {
