@@ -39,7 +39,6 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.counter !== this.state.counter) {
-      console.log("Request bheje hai");
       ipcRenderer.send(
         "fetch-song",
         this.state.songs[this.state.counter].filePath
@@ -50,7 +49,15 @@ class App extends Component {
       prevState.currentSong !== this.state.currentSong &&
       this.state.play === true
     ) {
-      this.audio.play();
+      // For handling the promise returned by this.audio.play()
+      this.audio
+        .play()
+        .then(() => {
+          console.log("Started Playing!");
+        })
+        .catch((err) => {
+          console.log("Song Stopped!");
+        });
     }
   }
 
