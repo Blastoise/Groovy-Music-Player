@@ -4,7 +4,6 @@ import "./App.css";
 const electron = window.require("electron");
 const ipcRenderer = electron.ipcRenderer;
 
-// TODO check for leaks in ComponentUpdate as we need to add ComponentDidUnmount
 class App extends Component {
   state = {
     play: false,
@@ -46,13 +45,13 @@ class App extends Component {
         this.state.songs[this.state.counter].filePath
       );
     }
-    // else {
-    //   if (this.state.play === true) {
-    //     this.audio.pause();
-    //     this.audio.load();
-    //     this.audio.play();
-    //   }
-    // }
+
+    if (
+      prevState.currentSong !== this.state.currentSong &&
+      this.state.play === true
+    ) {
+      this.audio.play();
+    }
   }
 
   addSongs = (args) => {
@@ -68,10 +67,6 @@ class App extends Component {
   };
 
   nextSong = () => {
-    // if (this.state.play === true) {
-    //   this.audio.pause();
-    // }
-
     this.setState((state) => {
       if (state.songs.length - 1 > state.counter + 1) {
         return {
@@ -79,7 +74,6 @@ class App extends Component {
           artist: state.songs[state.counter + 1].artist,
           imageBuffer: state.songs[state.counter + 1].imageBuffer,
           counter: state.counter + 1,
-          play: false,
         };
       }
       return {
@@ -87,16 +81,11 @@ class App extends Component {
         artist: state.songs[0].artist,
         imageBuffer: state.songs[0].imageBuffer,
         counter: 0,
-        play: false,
       };
     });
   };
 
   prevSong = () => {
-    // if (this.state.play === true) {
-    //   this.audio.pause();
-    // }
-
     this.setState((state) => {
       if (state.counter > 0) {
         return {
@@ -104,7 +93,6 @@ class App extends Component {
           artist: state.songs[state.counter - 1].artist,
           imageBuffer: state.songs[state.counter - 1].imageBuffer,
           counter: state.counter - 1,
-          play: false,
         };
       }
       return {
@@ -112,7 +100,6 @@ class App extends Component {
         artist: state.songs[state.songs.length - 1].artist,
         imageBuffer: state.songs[state.songs.length - 1].imageBuffer,
         counter: state.songs.length - 1,
-        play: false,
       };
     });
   };
