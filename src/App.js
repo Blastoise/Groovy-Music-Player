@@ -21,7 +21,9 @@ class App extends Component {
   audio = null;
   playPauseHandler = () => {
     this.state.play === true ? this.audio.pause() : this.audio.play();
-    this.setState({ play: !this.state.play });
+    this.setState((state) => {
+      return { play: !state.play };
+    });
   };
 
   componentDidMount() {
@@ -69,60 +71,62 @@ class App extends Component {
     // if (this.state.play === true) {
     //   this.audio.pause();
     // }
-    if (this.state.songs.length - 1 >= this.state.counter + 1) {
-      const count = this.state.counter;
 
-      this.setState({
-        title: this.state.songs[count + 1].title,
-        artist: this.state.songs[count + 1].artist,
-        imageBuffer: this.state.songs[count + 1].imageBuffer,
-        counter: count + 1,
-        play: false,
-      });
-    } else {
-      this.setState({
-        title: this.state.songs[0].title,
-        artist: this.state.songs[0].artist,
-        imageBuffer: this.state.songs[0].imageBuffer,
+    this.setState((state) => {
+      if (state.songs.length - 1 > state.counter + 1) {
+        return {
+          title: state.songs[state.counter + 1].title,
+          artist: state.songs[state.counter + 1].artist,
+          imageBuffer: state.songs[state.counter + 1].imageBuffer,
+          counter: state.counter + 1,
+          play: false,
+        };
+      }
+      return {
+        title: state.songs[0].title,
+        artist: state.songs[0].artist,
+        imageBuffer: state.songs[0].imageBuffer,
         counter: 0,
         play: false,
-      });
-    }
+      };
+    });
   };
 
   prevSong = () => {
     // if (this.state.play === true) {
     //   this.audio.pause();
     // }
-    if (this.state.counter > 0) {
-      const count = this.state.counter;
 
-      this.setState({
-        title: this.state.songs[count - 1].title,
-        artist: this.state.songs[count - 1].artist,
-        imageBuffer: this.state.songs[count - 1].imageBuffer,
-        counter: count - 1,
+    this.setState((state) => {
+      if (state.counter > 0) {
+        return {
+          title: state.songs[state.counter - 1].title,
+          artist: state.songs[state.counter - 1].artist,
+          imageBuffer: state.songs[state.counter - 1].imageBuffer,
+          counter: state.counter - 1,
+          play: false,
+        };
+      }
+      return {
+        title: state.songs[state.songs.length - 1].title,
+        artist: state.songs[state.songs.length - 1].artist,
+        imageBuffer: state.songs[state.songs.length - 1].imageBuffer,
+        counter: state.songs.length - 1,
         play: false,
-      });
-    } else {
-      this.setState({
-        title: this.state.songs[this.state.songs.length - 1].title,
-        artist: this.state.songs[this.state.songs.length - 1].artist,
-        imageBuffer: this.state.songs[this.state.songs.length - 1].imageBuffer,
-        counter: this.state.songs.length - 1,
-        play: false,
-      });
-    }
+      };
+    });
   };
 
   repeatSong = () => {
-    console.log(!this.state.loop);
-
-    this.setState({ loop: !this.state.loop });
+    this.setState((state) => {
+      return { loop: !state.loop };
+    });
   };
 
   handleShuffle = () => {
-    this.setState({ shuffle: !this.state.shuffle });
+    this.setState((state) => {
+      return { shuffle: !state.shuffle };
+    });
   };
 
   styleObject = () => {
