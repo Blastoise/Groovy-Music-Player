@@ -34,19 +34,6 @@ function createWindow() {
 app.on("ready", function () {
   createWindow();
   const template = [];
-  // const template = [
-  //   {
-  //     label: "Sound Control",
-  //     submenu: [
-  //       {
-  //         label: "Select Song",
-  //         click: function () {
-  //           openFolderDialog();
-  //         },
-  //       },
-  //     ],
-  //   },
-  // ];
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 });
@@ -165,7 +152,7 @@ const checkMp3 = (filesArray) => {
         FileType.fromFile(file)
           .then((data) => {
             if (data && data.ext === "mp3") {
-              resolve(file);
+              resolve({ filePath: file });
             } else {
               console.log(`ERROR in file ${file}`);
               reject(`ERROR!! ${file} is not a MP3 file`);
@@ -174,26 +161,6 @@ const checkMp3 = (filesArray) => {
           .catch((err) => {
             reject(err);
           });
-      })
-    );
-  });
-  return Promise.allSettled(promises);
-};
-
-const convertSong = (filesArray) => {
-  let promises = [];
-  filesArray.forEach((file) => {
-    promises.push(
-      new Promise((resolve, reject) => {
-        fs.readFile(file, (err, data) => {
-          if (err) reject(err);
-          else {
-            resolve({
-              // music: dataurl.convert({ data, mimetype: "audio/mp3" }),
-              filePath: file,
-            });
-          }
-        });
       })
     );
   });
@@ -238,25 +205,12 @@ function openFolderDialog(event) {
           filesArray.push(result.value);
         }
       });
-      return filesArray;
-    })
-    .then((filesArray) => {
-      return convertSong(filesArray);
-    })
-    .then((data) => {
-      let filesArray = [];
-      data.forEach((result) => {
-        if (result.status === "fulfilled") {
-          filesArray.push(result.value);
-        }
-      });
+      console.log(filesArray.length);
       return filesArray;
     })
     .then((data) => {
       console.log("Crossed Convert song");
       return createSongObject(data);
-      // event.sender.send("modal-file-results", data);
-      // ipcMain.send("modal-file-results", data);
     })
     .then((data) => {
       let filesArray = [];
@@ -266,6 +220,7 @@ function openFolderDialog(event) {
           filesArray.push(result.value);
         }
       });
+      console.log(filesArray.length);
       return filesArray;
     })
     .then((data) => {
