@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Home from "./components/Home";
 import "./App.css";
 
 const electron = window.require("electron");
@@ -6,6 +7,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 class App extends Component {
   state = {
+    page: false,
     play: false,
     loop: false,
     shuffle: false,
@@ -144,9 +146,18 @@ class App extends Component {
     }
   };
 
+  changePage = () => {
+    this.setState((state) => {
+      return { page: !state.page };
+    });
+  };
+
   render() {
-    return (
+    return this.state.page === true ? (
+      <Home data={this.state.songs} onPage={this.changePage} />
+    ) : (
       <div>
+        <button onClick={this.changePage}>Change Page</button>
         <audio
           hidden
           src={this.state.currentSong}
