@@ -111,8 +111,15 @@ const getTags = (track) => {
           imageBuffer = Buffer.from(tags.image.imageBuffer).toString("base64");
         }
 
-        const { title, album, artist } = tags;
-        Object.assign(track, { title, artist, album, imageBuffer });
+        const { title, album, artist, genre, year } = tags;
+        Object.assign(track, {
+          title,
+          artist,
+          album,
+          genre,
+          year,
+          imageBuffer,
+        });
         return resolve(track);
       } else {
         console.log("ERROR! Tags property not present in file");
@@ -217,6 +224,9 @@ function openFolderDialog(event) {
       data.forEach((result) => {
         if (result.status === "fulfilled") {
           console.log(result.value.filePath);
+          // console.log(
+          //   `${result.value.title} **** ${result.value.artist} **** ${result.value.album} **** ${result.value.year} **** ${result.value.genre} **** ${result.value.filePath}`
+          // );
           filesArray.push(result.value);
         }
       });
