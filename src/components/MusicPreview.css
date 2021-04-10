@@ -1,0 +1,81 @@
+.song-info-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.preview-img-info-group {
+  flex-grow: 1;
+  /* border: 1px solid green; */
+  display: flex;
+  max-width: 480px;
+  min-width: 480px;
+}
+
+.preview-img-info-group:hover {
+  cursor: pointer;
+  background-color: rgba(150, 46, 247, 0.925);
+}
+
+.preview-art {
+  height: 104px;
+}
+.preview-song-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 12px;
+}
+.preview-song-info h1 {
+  margin-bottom: 5px;
+  /* border: 1px solid green; */
+}
+
+.preview-container-song {
+  flex-grow: 1;
+  flex: 2;
+  display: flex;
+  height: 100%;
+  padding-left: 10px;
+  justify-content: flex-start;
+  /* border: 1px solid green; */
+}
+
+.preview-music-controls {
+  /* border: 1px solid red; */
+  color: white;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 5px;
+  width: 45%;
+  margin-top: 10px;
+  /* margin-bottom: 5rem; */
+  /* margin-left: 8px; */
+  /* border: 1px solid green; */
+}
+.preview-music-controls img {
+  width: 20px;
+  height: auto;
+  color: white;
+  /* margin: 0px 8px; */
+}
+
+.preview-play-button:hover {
+  cursor: pointer;
+}
+
+.preview-prev-button:hover {
+  cursor: pointer;
+}
+
+.preview-next-button:hover {
+  cursor: pointer;
+}
+
+.preview-shuffle-button:hover {
+  cursor: pointer;
+}
+
+.preview-repeat-button:hover {
+  cursor: pointer;
+}
