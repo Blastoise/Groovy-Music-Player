@@ -128,3 +128,16 @@ html {
   margin: auto;
   margin-top: 5rem;
 } */
+.back-button {
+  position: absolute;
+  z-index: 100000;
+  width: 35px;
+  height: auto;
+  color: white;
+  background-color: black;
+  /* background-color: rgb(111, 111, 233); */
+  /* background-color: white; */
+}
+.back-button:hover {
+  background-color: rgb(111, 111, 233);
+}
