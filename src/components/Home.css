@@ -53,6 +53,13 @@ tr:nth-child(even) {
 
   margin: 20px 30px 120px 30px;
 }
+
+.testing {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 .rowing {
   box-sizing: border-box;
   flex-grow: 1;
@@ -72,8 +79,9 @@ tr:nth-child(even) {
   /* background-color: #282c35; */
 }
 
-.rowing:hover {
+.testing:hover {
   cursor: pointer;
+  transform: scale(1.01);
 }
 
 /* .head-flex-row {
