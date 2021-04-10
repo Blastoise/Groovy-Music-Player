@@ -111,12 +111,11 @@ const getTags = (track) => {
           imageBuffer = Buffer.from(tags.image.imageBuffer).toString("base64");
         }
 
-        const { title, album, artist, genre, year } = tags;
+        const { title, album, artist, year } = tags;
         Object.assign(track, {
           title,
           artist,
           album,
-          genre,
           year,
           imageBuffer,
         });
@@ -137,7 +136,13 @@ const createSongObject = (data) => {
       new Promise((resolve, reject) => {
         getDuration(file.filePath)
           .then((duration) => {
-            return Object.assign(file, { duration });
+            let mins = Math.floor(Math.floor(duration) / 60);
+            let secs = duration - mins * 60;
+            secs = Math.ceil(secs);
+            secs = secs < 10 ? `0${secs}` : secs;
+            let songDuration = `${mins}:${secs}`;
+
+            return Object.assign(file, { songDuration });
           })
           .then((data) => {
             return getTags(data);
