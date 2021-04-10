@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import Home from "./components/Home";
 import "./App.css";
+import Music from "./components/Music";
 
 const electron = window.require("electron");
 const ipcRenderer = electron.ipcRenderer;
 
 class App extends Component {
   state = {
-    page: false,
+    page: true,
     play: false,
     loop: false,
     shuffle: false,
@@ -72,6 +73,17 @@ class App extends Component {
       artist: args[0].artist,
       imageBuffer: args[0].imageBuffer,
       counter: 0,
+    });
+  };
+
+  playSelected = (counter) => {
+    this.setState((state) => {
+      return {
+        title: state.songs[counter].title,
+        artist: state.songs[counter].artist,
+        imageBuffer: state.songs[counter].imageBuffer,
+        counter: counter,
+      };
     });
   };
 
@@ -153,11 +165,8 @@ class App extends Component {
   };
 
   render() {
-    return this.state.page === true ? (
-      <Home data={this.state.songs} onPage={this.changePage} />
-    ) : (
+    return (
       <div>
-        <button onClick={this.changePage}>Change Page</button>
         <audio
           hidden
           src={this.state.currentSong}
@@ -167,64 +176,46 @@ class App extends Component {
             this.audio = input;
           }}
         ></audio>
-        <button
-          onClick={() => {
-            ipcRenderer.send("modal-file-content", "done");
-          }}
-        >
-          Get songs
-        </button>
-        <div className="main">
-          <div className="background-img" style={this.styleObject()}></div>
-          <div className="main_div">
-            <div className="music-container">
-              <img
-                src={
-                  !this.state.imageBuffer
-                    ? this.state.image
-                    : `data:jpeg;base64,${this.state.imageBuffer}`
-                }
-                alt=""
-              />
-              <div className="music-info">
-                <h1>{this.state.title}</h1>
-                <h2>{this.state.artist}</h2>
-              </div>
-            </div>
-            <div className="music-controls">
-              <img
-                src="./backward.svg"
-                alt=""
-                className="prev-button"
-                onClick={this.prevSong}
-              />
-              <img
-                src={this.state.play === true ? "./pause.svg" : "./play.svg"}
-                alt=""
-                className="play-button"
-                onClick={this.playPauseHandler}
-              />
-              <img
-                src="./forward.svg"
-                alt=""
-                className="next-button"
-                onClick={this.nextSong}
-              />
-              <img
-                src="./shuffle.svg"
-                alt=""
-                className="shuffle-button"
-                onClick={this.handleShuffle}
-              />
-              <img
-                src="./repeat.svg"
-                alt=""
-                onClick={this.repeatSong}
-                className="repeat-button"
-              />
-            </div>
+
+        {this.state.page === true ? (
+          <div>
+            <button
+              onClick={() => {
+                ipcRenderer.send("modal-file-content", "done");
+              }}
+            >
+              Get songs
+            </button>
+            <Home
+              data={this.state.songs}
+              onPage={this.changePage}
+              playSelected={this.playSelected}
+              counter={this.state.counter}
+              prevSong={this.prevSong}
+              play={this.state.play}
+              playPauseHandler={this.playPauseHandler}
+              nextSong={this.nextSong}
+              handleShuffle={this.handleShuffle}
+              repeatSong={this.repeatSong}
+              changePage={this.changePage}
+            />
           </div>
-        </div>
+        ) : (
+          <Music
+            styleObject={this.styleObject}
+            imageBuffer={this.state.imageBuffer}
+            image={this.state.image}
+            title={this.state.title}
+            artist={this.state.artist}
+            prevSong={this.prevSong}
+            play={this.state.play}
+            playPauseHandler={this.playPauseHandler}
+            nextSong={this.nextSong}
+            handleShuffle={this.handleShuffle}
+            repeatSong={this.repeatSong}
+            changePage={this.changePage}
+          />
+        )}
       </div>
     );
   }
