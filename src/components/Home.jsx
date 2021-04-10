@@ -5,7 +5,6 @@ import "./Home.css";
 const Home = (props) => {
   return (
     <div className="home-container">
-      <button onClick={props.onPage}>Page Change</button>
       <h1 className="home-head">My Music</h1>
       <div className="home-sections">
         <h2 className="head-active">Songs</h2>
@@ -18,7 +17,13 @@ const Home = (props) => {
           let classString;
           classString = index % 2 === 0 ? "rowing" : "rowing grey";
           return (
-            <React.Fragment key={index}>
+            <div className="testing" key={index}>
+              <h4
+                className={classString}
+                onClick={() => props.playSelected(index)}
+              >
+                {element.filePath.split("/").pop()}
+              </h4>
               <h4
                 className={classString}
                 onClick={() => props.playSelected(index)}
@@ -37,28 +42,39 @@ const Home = (props) => {
               >
                 {element.year}
               </h4>
-              <h4
+              {/* <h4
                 className={classString}
                 onClick={() => props.playSelected(index)}
               >
                 {element.genre}
-              </h4>
+              </h4> */}
               <h4
                 className={classString}
                 onClick={() => props.playSelected(index)}
               >
-                {element.duration}
+                {element.songDuration}
               </h4>
-            </React.Fragment>
+            </div>
           );
         })}
       </div>
       <div className="music-prev">
-        <MusicPreview
-          title={props.data[props.counter].title}
-          artist={props.data[props.counter].artist}
-          img={props.data[props.counter].imageBuffer}
-        />
+        {props.counter !== -1 ? (
+          <MusicPreview
+            title={props.data[props.counter].title}
+            artist={props.data[props.counter].artist}
+            img={props.data[props.counter].imageBuffer}
+            prevSong={props.prevSong}
+            play={props.play}
+            playPauseHandler={props.playPauseHandler}
+            nextSong={props.nextSong}
+            handleShuffle={props.handleShuffle}
+            repeatSong={props.repeatSong}
+            changePage={props.changePage}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
