@@ -15,14 +15,14 @@ const Home = (props) => {
       <div className="head-flex-column">
         {props.data.map((element, index) => {
           let classString;
-          classString = index % 2 === 0 ? "rowing" : "rowing grey";
+          classString = index % 2 === 1 ? "rowing" : "rowing grey";
           return (
             <div className="testing" key={index}>
               <h4
                 className={classString}
                 onClick={() => props.playSelected(index)}
               >
-                {element.filePath.split("/").pop()}
+                {element.filePath.split("/").pop().slice(0, -4)}
               </h4>
               <h4
                 className={classString}
