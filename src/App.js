@@ -30,8 +30,13 @@ class App extends Component {
 
   componentDidMount() {
     ipcRenderer.on("modal-file-results", (event, args) => {
-      console.log(args[0].title);
-      this.addSongs(args);
+      if (args) {
+        console.log(args[0].title);
+        this.addSongs(args);
+      } else {
+        console.log("Args aaya hi nhi");
+        console.log(args);
+      }
     });
 
     ipcRenderer.on("fetch-song", (event, args) => {
@@ -83,6 +88,7 @@ class App extends Component {
         artist: state.songs[counter].artist,
         imageBuffer: state.songs[counter].imageBuffer,
         counter: counter,
+        play: true,
       };
     });
   };
