@@ -8,9 +8,15 @@ const NodeID3 = require("node-id3");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
-
+const Store = require("electron-store");
 const isDev = require("electron-is-dev");
 const { dialog, ipcMain } = require("electron");
+
+const store = new Store();
+let send = false;
+if (store.store["meta-data"]) {
+  send = true;
+}
 
 let mainWindow;
 
@@ -22,7 +28,16 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
+  mainWindow.maximize();
   mainWindow.webContents.openDevTools();
+  mainWindow.webContents.on("did-finish-load", () => {
+    if (send) {
+      mainWindow.webContents.send(
+        "modal-file-results",
+        store.store["meta-data"]
+      );
+    }
+  });
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
@@ -232,9 +247,11 @@ function openFolderDialog(event) {
           // console.log(
           //   `${result.value.title} **** ${result.value.artist} **** ${result.value.album} **** ${result.value.year} **** ${result.value.genre} **** ${result.value.filePath}`
           // );
+
           filesArray.push(result.value);
         }
       });
+      store.set("meta-data", filesArray);
       console.log(filesArray.length);
       return filesArray;
     })
@@ -242,5 +259,5 @@ function openFolderDialog(event) {
       console.log("done everything");
       event.sender.send("modal-file-results", data);
     })
-    .catch((err) => console.log("Error"));
+    .catch((err) => console.log(err));
 }
