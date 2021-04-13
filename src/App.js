@@ -34,7 +34,19 @@ class App extends Component {
         console.log(args[0].title);
         this.addSongs(args);
       } else {
-        console.log("Args aaya hi nhi");
+        console.log("Args not received");
+        console.log(args);
+      }
+    });
+
+    ipcRenderer.send("init-data", "Initial Data");
+    ipcRenderer.on("init-data", (event, args) => {
+      if (args) {
+        args = JSON.parse(args);
+        console.log(args[0].title);
+        this.addSongs(args);
+      } else {
+        console.log("Args not received");
         console.log(args);
       }
     });
