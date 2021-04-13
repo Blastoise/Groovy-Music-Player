@@ -19,6 +19,7 @@ class App extends Component {
     image: "./wp2793970.jpg",
     imageBuffer: "",
     currentSong: "./Incomplete.mp3",
+    loaded: false,
   };
   audio = null;
   playPauseHandler = () => {
@@ -53,7 +54,7 @@ class App extends Component {
 
     ipcRenderer.on("fetch-song", (event, args) => {
       console.log(args);
-      this.setState({ currentSong: args.music });
+      this.setState({ currentSong: args.music, loaded: true });
     });
   }
 
@@ -65,11 +66,9 @@ class App extends Component {
       );
     }
 
-    if (
-      prevState.currentSong !== this.state.currentSong &&
-      this.state.play === true
-    ) {
+    if (this.state.loaded === true && this.state.play === true) {
       // For handling the promise returned by this.audio.play()
+      this.audio.load();
       this.audio
         .play()
         .then(() => {
@@ -90,6 +89,7 @@ class App extends Component {
       artist: args[0].artist,
       imageBuffer: args[0].imageBuffer,
       counter: 0,
+      loaded: false,
     });
   };
 
@@ -101,6 +101,7 @@ class App extends Component {
         imageBuffer: state.songs[counter].imageBuffer,
         counter: counter,
         play: true,
+        loaded: false,
       };
     });
   };
@@ -113,6 +114,7 @@ class App extends Component {
           artist: state.songs[state.counter + 1].artist,
           imageBuffer: state.songs[state.counter + 1].imageBuffer,
           counter: state.counter + 1,
+          loaded: false,
         };
       }
       return {
@@ -120,6 +122,7 @@ class App extends Component {
         artist: state.songs[0].artist,
         imageBuffer: state.songs[0].imageBuffer,
         counter: 0,
+        loaded: false,
       };
     });
   };
@@ -132,6 +135,7 @@ class App extends Component {
           artist: state.songs[state.counter - 1].artist,
           imageBuffer: state.songs[state.counter - 1].imageBuffer,
           counter: state.counter - 1,
+          loaded: false,
         };
       }
       return {
@@ -139,6 +143,7 @@ class App extends Component {
         artist: state.songs[state.songs.length - 1].artist,
         imageBuffer: state.songs[state.songs.length - 1].imageBuffer,
         counter: state.songs.length - 1,
+        loaded: false,
       };
     });
   };
