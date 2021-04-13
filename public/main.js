@@ -13,31 +13,20 @@ const isDev = require("electron-is-dev");
 const { dialog, ipcMain } = require("electron");
 
 const store = new Store();
-let send = false;
-if (store.store["meta-data"]) {
-  send = true;
-}
 
 let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 680,
+    show: false,
+    fullscreen: true,
     webPreferences: {
       nodeIntegration: true,
     },
   });
   mainWindow.maximize();
-  mainWindow.webContents.openDevTools();
-  mainWindow.webContents.on("did-finish-load", () => {
-    if (send) {
-      mainWindow.webContents.send(
-        "modal-file-results",
-        store.store["meta-data"]
-      );
-    }
-  });
+  mainWindow.show();
+  // mainWindow.webContents.openDevTools();
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
@@ -68,6 +57,10 @@ app.on("activate", () => {
 ipcMain.on("modal-file-content", (event, arg) => {
   console.log(arg);
   openFolderDialog(event);
+});
+
+ipcMain.on("init-data", (event, args) => {
+  event.sender.send("init-data", JSON.stringify(store.store["meta-data"]));
 });
 
 ipcMain.on("fetch-song", (event, arg) => {
