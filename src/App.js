@@ -44,8 +44,15 @@ class App extends Component {
     ipcRenderer.on("init-data", (event, args) => {
       if (args) {
         args = JSON.parse(args);
-        console.log(args[0].title);
-        this.addSongs(args);
+
+        if (Object.keys(args).length !== 0) {
+          let songs = [];
+          for (const song in args) {
+            songs.push(args[song]);
+          }
+          console.log(songs[0].title);
+          this.addSongs(songs);
+        }
       } else {
         console.log("Args not received");
         console.log(args);
@@ -68,7 +75,9 @@ class App extends Component {
 
     if (this.state.loaded === true && this.state.play === true) {
       // For handling the promise returned by this.audio.play()
-      this.audio.load();
+      if (prevState.loaded === false) {
+        this.audio.load();
+      }
       this.audio
         .play()
         .then(() => {
@@ -83,25 +92,33 @@ class App extends Component {
   addSongs = (args) => {
     console.log("Adding song");
 
-    this.setState({
-      songs: args,
-      title: args[0].title,
-      artist: args[0].artist,
-      imageBuffer: args[0].imageBuffer,
-      counter: 0,
-      loaded: false,
+    this.setState((state) => {
+      return {
+        songs: [...state.songs, ...args],
+        title: args[0].title,
+        artist: args[0].artist,
+        imageBuffer: args[0].imageBuffer,
+        counter: 0,
+        loaded: false,
+      };
     });
   };
 
   playSelected = (counter) => {
     this.setState((state) => {
+      if (state.counter !== counter) {
+        return {
+          title: state.songs[counter].title,
+          artist: state.songs[counter].artist,
+          imageBuffer: state.songs[counter].imageBuffer,
+          counter: counter,
+          play: true,
+          loaded: false,
+        };
+      }
       return {
-        title: state.songs[counter].title,
-        artist: state.songs[counter].artist,
-        imageBuffer: state.songs[counter].imageBuffer,
-        counter: counter,
         play: true,
-        loaded: false,
+        loaded: true,
       };
     });
   };
@@ -114,6 +131,7 @@ class App extends Component {
           artist: state.songs[state.counter + 1].artist,
           imageBuffer: state.songs[state.counter + 1].imageBuffer,
           counter: state.counter + 1,
+          play: true,
           loaded: false,
         };
       }
@@ -122,6 +140,7 @@ class App extends Component {
         artist: state.songs[0].artist,
         imageBuffer: state.songs[0].imageBuffer,
         counter: 0,
+        play: true,
         loaded: false,
       };
     });
@@ -135,6 +154,7 @@ class App extends Component {
           artist: state.songs[state.counter - 1].artist,
           imageBuffer: state.songs[state.counter - 1].imageBuffer,
           counter: state.counter - 1,
+          play: true,
           loaded: false,
         };
       }
@@ -143,6 +163,7 @@ class App extends Component {
         artist: state.songs[state.songs.length - 1].artist,
         imageBuffer: state.songs[state.songs.length - 1].imageBuffer,
         counter: state.songs.length - 1,
+        play: true,
         loaded: false,
       };
     });
