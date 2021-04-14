@@ -19,7 +19,6 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     show: false,
-    fullscreen: true,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -60,7 +59,7 @@ ipcMain.on("modal-file-content", (event, arg) => {
 });
 
 ipcMain.on("init-data", (event, args) => {
-  event.sender.send("init-data", JSON.stringify(store.store["meta-data"]));
+  event.sender.send("init-data", JSON.stringify(store.store));
 });
 
 ipcMain.on("fetch-song", (event, arg) => {
@@ -240,11 +239,12 @@ function openFolderDialog(event) {
           // console.log(
           //   `${result.value.title} **** ${result.value.artist} **** ${result.value.album} **** ${result.value.year} **** ${result.value.genre} **** ${result.value.filePath}`
           // );
-
+          store.set(result.value.filePath.replace(/\./g, "\\."), result.value);
           filesArray.push(result.value);
         }
       });
-      store.set("meta-data", filesArray);
+
+      // store.set("meta-data", filesArray);
       console.log(filesArray.length);
       return filesArray;
     })
