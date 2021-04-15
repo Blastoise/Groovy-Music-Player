@@ -66,6 +66,8 @@ const Home = (props) => {
             img={props.data[props.counter].imageBuffer}
             prevSong={props.prevSong}
             play={props.play}
+            shuffle={props.shuffle}
+            loop={props.loop}
             playPauseHandler={props.playPauseHandler}
             nextSong={props.nextSong}
             handleShuffle={props.handleShuffle}
