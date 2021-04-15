@@ -93,11 +93,15 @@ html {
   /* margin-left: 8px; */
   /* border: 1px solid green; */
 }
-.music-controls img {
+.music-controls div img {
   width: 20px;
   height: auto;
   color: white;
   /* margin: 0px 8px; */
+}
+
+.music-controls div {
+  padding: 12px 12px 8px 12px;
 }
 
 .play-button:hover {
