@@ -53,12 +53,31 @@
   /* margin-left: 8px; */
   /* border: 1px solid green; */
 }
-.preview-music-controls img {
+.preview-music-controls div img {
   width: 20px;
   height: auto;
   color: white;
   /* margin: 0px 8px; */
 }
+
+.preview-music-controls div {
+  padding: 12px 12px 8px 12px;
+}
+
+.shuffle-on {
+  background-color: black;
+  /* padding: 8px; */
+  border-radius: 50%;
+}
+
+.loop-on {
+  background-color: black;
+  /* padding: 8px; */
+  border-radius: 50%;
+}
+/* .shuffle-off {
+  padding: 8px;
+} */
 
 .preview-play-button:hover {
   cursor: pointer;
