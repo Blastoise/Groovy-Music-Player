@@ -10,7 +10,7 @@ class App extends Component {
   state = {
     page: true,
     play: false,
-    loop: false,
+    loop: 0,
     shuffle: false,
     songs: [],
     counter: -1,
@@ -125,6 +125,17 @@ class App extends Component {
 
   nextSong = () => {
     this.setState((state) => {
+      if (state.shuffle === true) {
+        let counter = Math.floor(Math.random() * state.songs.length);
+        return {
+          title: state.songs[counter].title,
+          artist: state.songs[counter].artist,
+          imageBuffer: state.songs[counter].imageBuffer,
+          counter: counter,
+          play: true,
+          loaded: false,
+        };
+      }
       if (state.songs.length - 1 > state.counter + 1) {
         return {
           title: state.songs[state.counter + 1].title,
@@ -171,7 +182,7 @@ class App extends Component {
 
   repeatSong = () => {
     this.setState((state) => {
-      return { loop: !state.loop };
+      return state.loop === 2 ? { loop: 0 } : { loop: state.loop + 1 };
     });
   };
 
@@ -214,7 +225,7 @@ class App extends Component {
         <audio
           hidden
           src={this.state.currentSong}
-          loop={this.state.loop}
+          loop={this.state.loop === 1 ? true : false}
           onEnded={this.nextSong}
           ref={(input) => {
             this.audio = input;
@@ -237,6 +248,8 @@ class App extends Component {
               counter={this.state.counter}
               prevSong={this.prevSong}
               play={this.state.play}
+              shuffle={this.state.shuffle}
+              loop={this.state.loop}
               playPauseHandler={this.playPauseHandler}
               nextSong={this.nextSong}
               handleShuffle={this.handleShuffle}
@@ -253,6 +266,8 @@ class App extends Component {
             artist={this.state.artist}
             prevSong={this.prevSong}
             play={this.state.play}
+            shuffle={this.state.shuffle}
+            loop={this.state.loop}
             playPauseHandler={this.playPauseHandler}
             nextSong={this.nextSong}
             handleShuffle={this.handleShuffle}
