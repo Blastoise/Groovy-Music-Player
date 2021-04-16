@@ -23,8 +23,8 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #343434;
-  outline: 1px solid slategrey;
+  background-color: silver;
+  outline: 2px solid silver;
 }
 
 .main {
@@ -88,6 +88,7 @@ html {
   justify-content: space-between;
   padding: 10px 5px;
   width: 20%;
+  min-width: 100px;
   margin-top: 10px;
   /* margin-bottom: 5rem; */
   /* margin-left: 8px; */
