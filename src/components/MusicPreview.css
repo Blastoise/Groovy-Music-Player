@@ -17,6 +17,7 @@
 }
 
 .preview-art {
+  width: 112px;
   height: 104px;
 }
 .preview-song-info {
@@ -24,9 +25,18 @@
   flex-direction: column;
   justify-content: center;
   margin-left: 12px;
+  overflow: hidden;
 }
 .preview-song-info h1 {
   margin-bottom: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /* border: 1px solid green; */
+}
+
+.preview-song-info h2 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
   /* border: 1px solid green; */
 }
 
