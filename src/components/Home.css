@@ -60,6 +60,10 @@ tr:nth-child(even) {
   width: 100%;
 }
 
+.testing h4 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .rowing {
   box-sizing: border-box;
   flex-grow: 1;
