@@ -1,5 +1,8 @@
 {
-  "name": "music-player",
+  "name": "groovy-music-player",
+  "productName": "Groovy Music Player",
+  "author": "Ashutosh Kumar",
+  "description": "Aesthetic Music Player",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,9 +30,22 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "preelectron-pack": "yarn build",
+    "electron-pack": "electron-builder -l -c.extraMetadata.main=build/main.js",
     "electron-dev": "concurrently \"BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electron .\""
   },
+  "build": {
+    "appId": "com.example.groovy-music-player",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
   "main": "public/main.js",
+  "homepage": "./",
   "eslintConfig": {
     "extends": [
       "react-app",
