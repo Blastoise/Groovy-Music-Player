@@ -19,6 +19,7 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     show: false,
+    icon: path.join(__dirname, "/icons/64x64.png"),
     webPreferences: {
       nodeIntegration: true,
     },
@@ -53,8 +54,8 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.on("modal-file-content", (event, arg) => {
-  console.log(arg);
+ipcMain.on("open-dir", (event, arg) => {
+  // console.log(arg);
   openFolderDialog(event);
 });
 
@@ -63,10 +64,10 @@ ipcMain.on("init-data", (event, args) => {
 });
 
 ipcMain.on("fetch-song", (event, arg) => {
-  console.log(arg);
+  // console.log(arg);
   getSongDataURI(arg)
     .then((data) => {
-      console.log("SONG FETCHED");
+      // console.log("SONG FETCHED");
       event.sender.send("fetch-song", data);
     })
     .catch((err) => console.log(err));
@@ -89,13 +90,13 @@ const getDuration = (filePath) => {
   const durationPromise = new Promise((resolve, reject) => {
     mp3Duration(filePath, (err, duration) => {
       if (err) {
-        console.log("ERROR! Reading File in getDuration");
+        // console.log("ERROR! Reading File in getDuration");
         return reject(err);
       }
       if (duration) {
         return resolve(duration);
       } else {
-        console.log("ERROR! Duration property is not present in file");
+        // console.log("ERROR! Duration property is not present in file");
         return reject("ERROR! Duration property is not present in file");
       }
     });
@@ -108,7 +109,7 @@ const getTags = (track) => {
   const tagsPromise = new Promise((resolve, reject) => {
     NodeID3.read(filePath, function (err, tags) {
       if (err) {
-        console.log("ERROR! Reading File in getTags");
+        // console.log("ERROR! Reading File in getTags");
         return reject(err);
       }
       if (tags) {
@@ -128,7 +129,7 @@ const getTags = (track) => {
         });
         return resolve(track);
       } else {
-        console.log("ERROR! Tags property not present in file");
+        // console.log("ERROR! Tags property not present in file");
         return reject("ERROR! Tags property not present in file");
       }
     });
@@ -173,7 +174,7 @@ const checkMp3 = (filesArray) => {
             if (data && data.ext === "mp3") {
               resolve({ filePath: file });
             } else {
-              console.log(`ERROR in file ${file}`);
+              // console.log(`ERROR in file ${file}`);
               reject(`ERROR!! ${file} is not a MP3 file`);
             }
           })
@@ -211,7 +212,7 @@ function openFolderDialog(event) {
       properties: ["openDirectory"],
     })
     .then((result) => {
-      console.log(result["filePaths"][0]);
+      // console.log(result["filePaths"][0]);
       return getAllFiles(result["filePaths"][0]);
     })
     .then((filesArray) => {
@@ -224,33 +225,29 @@ function openFolderDialog(event) {
           filesArray.push(result.value);
         }
       });
-      console.log(filesArray.length);
+      // console.log(filesArray.length);
       return filesArray;
     })
     .then((data) => {
-      console.log("Crossed Convert song");
+      // console.log("Crossed Convert song");
       return createSongObject(data);
     })
     .then((data) => {
       let filesArray = [];
       data.forEach((result) => {
         if (result.status === "fulfilled") {
-          console.log(result.value.filePath);
-          // console.log(
-          //   `${result.value.title} **** ${result.value.artist} **** ${result.value.album} **** ${result.value.year} **** ${result.value.genre} **** ${result.value.filePath}`
-          // );
+          // console.log(result.value.filePath);
           store.set(result.value.filePath.replace(/\./g, "\\."), result.value);
           filesArray.push(result.value);
         }
       });
 
-      // store.set("meta-data", filesArray);
-      console.log(filesArray.length);
+      // console.log(filesArray.length);
       return filesArray;
     })
     .then((data) => {
-      console.log("done everything");
-      event.sender.send("modal-file-results", data);
+      // console.log("done everything");
+      event.sender.send("open-dir-results", data);
     })
     .catch((err) => console.log(err));
 }
