@@ -8,7 +8,7 @@ const MusicPreview = (props) => {
         <div className="preview-img-info-group" onClick={props.changePage}>
           <img
             className="preview-art"
-            src={`data:jpeg;base64,${props.img}`}
+            src={!props.img ? props.image : `data:jpeg;base64,${props.img}`}
             alt=""
           />
           <div className="preview-song-info">
