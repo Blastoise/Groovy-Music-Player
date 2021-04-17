@@ -15,7 +15,11 @@ const Home = (props) => {
       <div className="head-flex-column">
         {props.data.map((element, index) => {
           let classString;
-          classString = index % 2 === 1 ? "rowing" : "rowing grey";
+          if (props.counter === index) {
+            classString = "rowing current-play";
+          } else {
+            classString = index % 2 === 1 ? "rowing" : "rowing grey";
+          }
           return (
             <div className="testing" key={index}>
               <h4
@@ -28,13 +32,13 @@ const Home = (props) => {
                 className={classString}
                 onClick={() => props.playSelected(index)}
               >
-                {element.artist}
+                {element.artist || "UNKNOWN"}
               </h4>
               <h4
                 className={classString}
                 onClick={() => props.playSelected(index)}
               >
-                {element.album}
+                {element.album || "UNKNOWN"}
               </h4>
               <h4
                 className={classString}
@@ -61,9 +65,10 @@ const Home = (props) => {
       <div className="music-prev">
         {props.counter !== -1 ? (
           <MusicPreview
-            title={props.data[props.counter].title}
-            artist={props.data[props.counter].artist}
+            title={props.title}
+            artist={props.artist}
             img={props.data[props.counter].imageBuffer}
+            image={props.image}
             prevSong={props.prevSong}
             play={props.play}
             shuffle={props.shuffle}
