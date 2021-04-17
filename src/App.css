@@ -9,7 +9,7 @@
 html {
   font-size: 62.5%;
   font-family: sans-serif;
-
+  user-select: none;
   font-family: "Open Sans", "Helvetica Neue", sans-serif;
 }
 
@@ -25,6 +25,26 @@ html {
 ::-webkit-scrollbar-thumb {
   background-color: silver;
   outline: 2px solid silver;
+}
+.app-add-song-button {
+  display: flex;
+
+  justify-content: space-evenly;
+  margin: 15px 0px 0px 30px;
+  background-color: purple;
+  padding: 10px;
+  width: 200px;
+  color: white;
+  outline: none;
+  border-style: none;
+  border-radius: 30px;
+  align-items: center;
+  /* margin-left: 30px; */
+}
+
+.app-add-song-button:hover {
+  cursor: pointer;
+  background-color: rgba(189, 40, 189, 0.979);
 }
 
 .main {
