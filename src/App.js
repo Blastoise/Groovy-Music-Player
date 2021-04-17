@@ -14,11 +14,11 @@ class App extends Component {
     shuffle: false,
     songs: [],
     counter: -1,
-    title: "Incomplete",
-    artist: "Backstreet Boys",
-    image: "./wp2793970.jpg",
+    title: "",
+    artist: "",
+    image: "./default.png",
     imageBuffer: "",
-    currentSong: "./Incomplete.mp3",
+    currentSong: "",
     loaded: false,
   };
   audio = null;
@@ -30,13 +30,13 @@ class App extends Component {
   };
 
   componentDidMount() {
-    ipcRenderer.on("modal-file-results", (event, args) => {
-      if (args) {
-        console.log(args[0].title);
+    ipcRenderer.on("open-dir-results", (event, args) => {
+      if (args.length !== 0) {
+        // console.log(args[0].title);
         this.addSongs(args);
       } else {
-        console.log("Args not received");
-        console.log(args);
+        // console.log("Args not received");
+        // console.log(args);
       }
     });
 
@@ -50,17 +50,17 @@ class App extends Component {
           for (const song in args) {
             songs.push(args[song]);
           }
-          console.log(songs[0].title);
+          // console.log(songs[0].title);
           this.addSongs(songs);
         }
       } else {
-        console.log("Args not received");
-        console.log(args);
+        // console.log("Args not received");
+        // console.log(args);
       }
     });
 
     ipcRenderer.on("fetch-song", (event, args) => {
-      console.log(args);
+      // console.log(args);
       this.setState({ currentSong: args.music, loaded: true });
     });
   }
@@ -89,15 +89,19 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    ipcRenderer.removeAllListeners();
+  }
+
   addSongs = (args) => {
-    console.log("Adding song");
+    // console.log("Adding song");
 
     this.setState((state) => {
       return {
         songs: [...state.songs, ...args],
-        title: args[0].title,
-        artist: args[0].artist,
-        imageBuffer: args[0].imageBuffer,
+        title: args[0].title || args[0].filePath.split("/").pop().slice(0, -4),
+        artist: args[0].artist || "UNKNOWN",
+        imageBuffer: args[0].imageBuffer || "UNKNOWN",
         counter: 0,
         loaded: false,
       };
@@ -108,8 +112,10 @@ class App extends Component {
     this.setState((state) => {
       if (state.counter !== counter) {
         return {
-          title: state.songs[counter].title,
-          artist: state.songs[counter].artist,
+          title:
+            state.songs[counter].title ||
+            state.songs[counter].filePath.split("/").pop().slice(0, -4),
+          artist: state.songs[counter].artist || "UNKNOWN",
           imageBuffer: state.songs[counter].imageBuffer,
           counter: counter,
           play: true,
@@ -128,8 +134,10 @@ class App extends Component {
       if (state.shuffle === true) {
         let counter = Math.floor(Math.random() * state.songs.length);
         return {
-          title: state.songs[counter].title,
-          artist: state.songs[counter].artist,
+          title:
+            state.songs[counter].title ||
+            state.songs[counter].filePath.split("/").pop().slice(0, -4),
+          artist: state.songs[counter].artist || "UNKNOWN",
           imageBuffer: state.songs[counter].imageBuffer,
           counter: counter,
           play: true,
@@ -138,8 +146,13 @@ class App extends Component {
       }
       if (state.songs.length - 1 > state.counter + 1) {
         return {
-          title: state.songs[state.counter + 1].title,
-          artist: state.songs[state.counter + 1].artist,
+          title:
+            state.songs[state.counter + 1].title ||
+            state.songs[state.counter + 1].filePath
+              .split("/")
+              .pop()
+              .slice(0, -4),
+          artist: state.songs[state.counter + 1].artist || "UNKNOWN",
           imageBuffer: state.songs[state.counter + 1].imageBuffer,
           counter: state.counter + 1,
           play: true,
@@ -147,8 +160,10 @@ class App extends Component {
         };
       }
       return {
-        title: state.songs[0].title,
-        artist: state.songs[0].artist,
+        title:
+          state.songs[0].title ||
+          state.songs[0].filePath.split("/").pop().slice(0, -4),
+        artist: state.songs[0].artist || "UNKNOWN",
         imageBuffer: state.songs[0].imageBuffer,
         counter: 0,
         play: true,
@@ -161,8 +176,13 @@ class App extends Component {
     this.setState((state) => {
       if (state.counter > 0) {
         return {
-          title: state.songs[state.counter - 1].title,
-          artist: state.songs[state.counter - 1].artist,
+          title:
+            state.songs[state.counter - 1].title ||
+            state.songs[state.counter - 1].filePath
+              .split("/")
+              .pop()
+              .slice(0, -4),
+          artist: state.songs[state.counter - 1].artist || "UNKNOWN",
           imageBuffer: state.songs[state.counter - 1].imageBuffer,
           counter: state.counter - 1,
           play: true,
@@ -170,8 +190,13 @@ class App extends Component {
         };
       }
       return {
-        title: state.songs[state.songs.length - 1].title,
-        artist: state.songs[state.songs.length - 1].artist,
+        title:
+          state.songs[state.songs.length - 1].title ||
+          state.songs[state.songs.length - 1].filePath
+            .split("/")
+            .pop()
+            .slice(0, -4),
+        artist: state.songs[state.songs.length - 1].artist || "UNKNOWN",
         imageBuffer: state.songs[state.songs.length - 1].imageBuffer,
         counter: state.songs.length - 1,
         play: true,
@@ -235,14 +260,19 @@ class App extends Component {
         {this.state.page === true ? (
           <div>
             <button
+              className="app-add-song-button"
               onClick={() => {
-                ipcRenderer.send("modal-file-content", "done");
+                ipcRenderer.send("open-dir", "Open Directory");
               }}
             >
-              Get songs
+              <img src="./folder-plus.png" alt="" />
+              <p>Add Music Directory</p>
             </button>
             <Home
               data={this.state.songs}
+              title={this.state.title}
+              artist={this.state.artist}
+              image={this.state.image}
               onPage={this.changePage}
               playSelected={this.playSelected}
               counter={this.state.counter}
