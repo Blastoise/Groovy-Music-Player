@@ -76,6 +76,11 @@ tr:nth-child(even) {
   padding-bottom: 8px;
   overflow: hidden;
 }
+
+.current-play {
+  background-color: #d4cbc2a4;
+}
+
 .grey {
   /* color: black; */
 
