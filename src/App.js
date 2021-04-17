@@ -101,7 +101,7 @@ class App extends Component {
         songs: [...state.songs, ...args],
         title: args[0].title || args[0].filePath.split("/").pop().slice(0, -4),
         artist: args[0].artist || "UNKNOWN",
-        imageBuffer: args[0].imageBuffer || "UNKNOWN",
+        imageBuffer: args[0].imageBuffer,
         counter: 0,
         loaded: false,
       };
