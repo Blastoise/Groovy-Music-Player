@@ -145,14 +145,6 @@ html {
   cursor: pointer;
 }
 
-/* .music-controls {
-  width: 20rem;
-
-  justify-content: space-between;
-  align-items: center;
-  margin: auto;
-  margin-top: 5rem;
-} */
 .back-button {
   position: absolute;
   z-index: 100000;
@@ -164,5 +156,6 @@ html {
   /* background-color: white; */
 }
 .back-button:hover {
+  cursor: pointer;
   background-color: rgb(111, 111, 233);
 }
