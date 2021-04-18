@@ -20,6 +20,7 @@ class App extends Component {
     imageBuffer: "",
     currentSong: "",
     loaded: false,
+    animationLoad: false,
   };
   audio = null;
   playPauseHandler = () => {
@@ -35,12 +36,14 @@ class App extends Component {
         // console.log(args[0].title);
         this.addSongs(args);
       } else {
+        this.addSongs([]);
         // console.log("Args not received");
         // console.log(args);
       }
     });
 
     ipcRenderer.send("init-data", "Initial Data");
+    this.setState({ animationLoad: true });
     ipcRenderer.once("init-data", (event, args) => {
       if (args) {
         args = JSON.parse(args);
@@ -52,6 +55,8 @@ class App extends Component {
           }
           // console.log(songs[0].title);
           this.addSongs(songs);
+        } else {
+          this.addSongs([]);
         }
       } else {
         // console.log("Args not received");
@@ -127,8 +132,11 @@ class App extends Component {
           songs: [...state.songs, ...args],
           loaded: false,
           counter: 0,
+          animationLoad: false,
         };
       });
+    } else {
+      this.setState({ animationLoad: false });
     }
   };
 
@@ -283,15 +291,28 @@ class App extends Component {
 
         {this.state.page === true ? (
           <div>
-            <button
-              className="app-add-song-button"
-              onClick={() => {
-                ipcRenderer.send("open-dir", "Open Directory");
-              }}
-            >
-              <img src="./folder-plus.png" alt="" />
-              <p>Add Music Directory</p>
-            </button>
+            <div className="top-bar">
+              <button
+                className="app-add-song-button"
+                onClick={() => {
+                  ipcRenderer.send("open-dir", "Open Directory");
+                  this.setState({ animationLoad: true });
+                }}
+              >
+                <img src="./folder-plus.png" alt="" />
+                <p>Add Music Directory</p>
+              </button>
+              {this.state.animationLoad ? (
+                <div className="loading-animation">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+
             <Home
               data={this.state.songs}
               title={this.state.title}
