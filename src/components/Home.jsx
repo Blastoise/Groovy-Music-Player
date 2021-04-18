@@ -67,7 +67,7 @@ const Home = (props) => {
           <MusicPreview
             title={props.title}
             artist={props.artist}
-            img={props.data[props.counter].imageBuffer}
+            img={props.imageBuffer}
             image={props.image}
             prevSong={props.prevSong}
             play={props.play}
