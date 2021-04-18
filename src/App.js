@@ -125,7 +125,6 @@ class App extends Component {
       this.setState((state) => {
         return {
           songs: [...state.songs, ...args],
-          play: false,
           loaded: false,
           counter: 0,
         };
