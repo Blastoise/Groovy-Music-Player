@@ -41,7 +41,7 @@ class App extends Component {
     });
 
     ipcRenderer.send("init-data", "Initial Data");
-    ipcRenderer.on("init-data", (event, args) => {
+    ipcRenderer.once("init-data", (event, args) => {
       if (args) {
         args = JSON.parse(args);
 
@@ -66,11 +66,26 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.counter !== this.state.counter) {
+    if (
+      prevState.counter !== this.state.counter ||
+      prevState.songs.length !== this.state.songs.length
+    ) {
       ipcRenderer.send(
         "fetch-song",
         this.state.songs[this.state.counter].filePath
       );
+
+      if (prevState.songs.length !== this.state.songs.length) {
+        this.setState((state) => {
+          return {
+            title:
+              state.songs[state.counter].title ||
+              state.songs[state.counter].filePath.split("/").pop().slice(0, -4),
+            artist: state.songs[state.counter].artist || "UNKNOWN",
+            imageBuffer: state.songs[state.counter].imageBuffer,
+          };
+        });
+      }
     }
 
     if (this.state.loaded === true && this.state.play === true) {
@@ -95,17 +110,27 @@ class App extends Component {
 
   addSongs = (args) => {
     // console.log("Adding song");
+    let val;
+    this.state.songs.forEach((songElement) => {
+      val = args.findIndex(
+        (argsElement) => argsElement.filePath === songElement.filePath
+      );
 
-    this.setState((state) => {
-      return {
-        songs: [...state.songs, ...args],
-        title: args[0].title || args[0].filePath.split("/").pop().slice(0, -4),
-        artist: args[0].artist || "UNKNOWN",
-        imageBuffer: args[0].imageBuffer,
-        counter: 0,
-        loaded: false,
-      };
+      if (val !== -1) {
+        args.splice(val, 1);
+      }
     });
+
+    if (args.length !== 0) {
+      this.setState((state) => {
+        return {
+          songs: [...state.songs, ...args],
+          play: false,
+          loaded: false,
+          counter: 0,
+        };
+      });
+    }
   };
 
   playSelected = (counter) => {
@@ -273,6 +298,7 @@ class App extends Component {
               title={this.state.title}
               artist={this.state.artist}
               image={this.state.image}
+              imageBuffer={this.state.imageBuffer}
               onPage={this.changePage}
               playSelected={this.playSelected}
               counter={this.state.counter}
