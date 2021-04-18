@@ -249,5 +249,8 @@ function openFolderDialog(event) {
       // console.log("done everything");
       event.sender.send("open-dir-results", data);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err.message);
+      event.sender.send("open-dir-results", []);
+    });
 }
