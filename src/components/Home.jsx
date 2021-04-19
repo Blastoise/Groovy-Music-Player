@@ -8,8 +8,7 @@ const Home = (props) => {
       <h1 className="home-head">My Music</h1>
       <div className="home-sections">
         <h2 className="head-active">Songs</h2>
-
-        <h2>Albums</h2>
+        {/* <h2>Albums</h2> */}
       </div>
 
       <div className="head-flex-column">
