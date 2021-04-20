@@ -18,20 +18,20 @@ Groovy Music Player is a cross-platform desktop music player built on top of [El
 
 https://user-images.githubusercontent.com/24838843/115364805-6807fe80-a1e1-11eb-8cde-5240e723bb79.mp4
 
-## Features
+## ✨ Features
 
-- Loading local .mp3 files from multiple directories.
-- Loading previously added songs instantly when app is re-opened.
-- Animations for clean and easy to use interface.
-- Shows meta-data for each song such as title, artist, album, year of release and length of song.
-- Highlights currently playing song in the list of songs.
-- Shows Album Art for currently playing song.
-- Basic control features such as:
+- 📁 Load local .mp3 files from multiple directories.
+- ⌛ Load previously added songs instantly when app is re-opened.
+- 💫 Animations for clean and easy to use interface.
+- 🗄️ Shows meta-data for each song such as title, artist, album, year of release and length of song.
+- 🎵 Highlights currently playing song in the list of songs.
+- 🔥 Shows Album Art for currently playing song.
+- 🎛️ Basic control features such as:
   * Play/Pause.
   * Previous/Next.
   * Shuffle On/Off.
   * Repeat Off/Current/All.
-- Full Screen Display for currently playing song.
-- Responsive Design.
-- Cross platform
+- 🖥️ Full Screen Display for currently playing song.
+- 📱 Responsive Design.
+- 🚀 Cross platform
   * Windows and Linux ready.
