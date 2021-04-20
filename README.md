@@ -48,6 +48,14 @@ If you want to build from source code, please read the Build section.
 ## Linux
 
 You can download the AppImage (for all Linux distributions) to install Groovy Music Player.
+
+### Linux Installation Instructions
+
+- First install cURL using the following command:
+  > sudo apt install curl
+- Then run the following command to install Groovy Music Player:
+  > curl -s https://gist.githubusercontent.com/Blastoise/355eba8386ff025a5b2706c701c2f5b5/raw/bb26c797f69982ecb03d44e2c34793c4a913c91f/install.sh | bash
+
 If you want to build from source code, please read the Build section.
 
 #### AppImage
