@@ -8,7 +8,6 @@
 
 <h3 align="center">Aesthetic Music Player built on top of <a href="https://www.electronjs.org/" target="_blank">Electron</a>.</h3>
 
-
 [![forthebadge](https://forthebadge.com/images/badges/check-it-out.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
@@ -58,7 +57,6 @@ The latest version of Groovy Music Player AppImage requires you to manually perf
 > Since electron-builder 21 desktop integration is not a part of produced AppImage file.
 > [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) is the recommended way to integrate AppImages.
 
-
 ## ⌨️ Development
 
 ### Clone Code
@@ -96,6 +94,10 @@ npm run electron-pack
 
 After building, the application will be found in the project's `dist` directory.
 
+## 🛠 Technology Stack
+
+- [Electron](https://www.electronjs.org/)
+- [React](https://reactjs.org/)
 
 ## 🤝 Contribute [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
@@ -104,5 +106,3 @@ If you are interested in participating in joint development, PR and Forks are we
 ## 📜 License
 
 [MIT](https://opensource.org/licenses/MIT) Copyright (c) 2021 Ashutosh Kumar
-
-
