@@ -83,7 +83,7 @@ npm run electron-dev
   * Create a file named .env in root of the project and add:
     > BROWSER=none
   * Replace `electron-dev` script in package.json with the following:
-    > "electron-dev": "concurrently \"npm run start\" \"wait-on http://localhost:3000 && electron .\""
+    > "electron-dev": "concurrently \\"npm run start\\" \\"wait-on http://localhost:3000 && electron .\\""
 
 ## 🤝 Contribute [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
