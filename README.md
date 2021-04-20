@@ -51,6 +51,13 @@ If you want to build from source code, please read the Build section.
 You can download the AppImage (for all Linux distributions) to install Groovy Music Player.
 If you want to build from source code, please read the Build section.
 
+#### AppImage
+The latest version of Groovy Music Player AppImage requires you to manually perform desktop integration. Please check the documentation of [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher).
+
+> Desktop Integration
+> Since electron-builder 21 desktop integration is not a part of produced AppImage file.
+> [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) is the recommended way to integrate AppImages.
+
 
 ## 🤝 Contribute [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
