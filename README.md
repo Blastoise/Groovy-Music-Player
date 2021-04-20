@@ -79,11 +79,23 @@ npm install
 ```bash
 npm run electron-dev
 ```
-- For Windows users:
+- For Windows user:
   * Create a file named .env in root of the project and add:
     > BROWSER=none
   * Replace `electron-dev` script in package.json with the following:
     > "electron-dev": "concurrently \\"npm run start\\" \\"wait-on http://localhost:3000 && electron .\\""
+
+### Build Release
+
+```bash
+npm run electron-pack
+```
+- For Windows user:
+  * Replace `electron-pack` script in package.json with the following:
+    > "electron-pack": "electron-builder -w -c.extraMetadata.main=build/main.js",
+
+After building, the application will be found in the project's `dist` directory.
+
 
 ## 🤝 Contribute [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
