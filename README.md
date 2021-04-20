@@ -35,3 +35,21 @@ https://user-images.githubusercontent.com/24838843/115364805-6807fe80-a1e1-11eb-
 - 📱 Responsive Design.
 - 🚀 Cross platform
   * Windows and Linux ready.
+- 🛠️ More features in development.
+
+## 💽 Installation
+Download from [GitHub Releases](https://github.com/Blastoise/Groovy-Music-Player/releases) and install it.
+
+## Windows
+It is recommended to install Groovy Music Player using the installation package ([Groovy.Music.Player.Setup.0.1.0.exe](https://github.com/Blastoise/Groovy-Music-Player/releases/download/v0.1.0/Groovy.Music.Player.Setup.0.1.0.exe)) for effortless installation.
+If you want to build from source code, please read the Build section.
+
+## Linux
+You can download the AppImage (for all Linux distributions) to install Groovy Music Player.
+If you want to build from source code, please read the Build section.
+
+
+
+
+
+
