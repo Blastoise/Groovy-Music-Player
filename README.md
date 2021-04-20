@@ -59,6 +59,32 @@ The latest version of Groovy Music Player AppImage requires you to manually perf
 > [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher) is the recommended way to integrate AppImages.
 
 
+## ⌨️ Development
+
+### Clone Code
+
+```bash
+git clone git@github.com:Blastoise/Groovy-Music-Player.git
+```
+
+### Install Dependencies
+
+```bash
+cd Groovy-Music-Player
+npm install
+```
+
+### Dev Mode
+
+```bash
+npm run electron-dev
+```
+- For Windows users:
+  * Create a file named .env in root of the project and add:
+    > BROWSER=none
+  * Replace `electron-dev` script in package.json with the following:
+    > "electron-dev": "concurrently \"npm run start\" \"wait-on http://localhost:3000 && electron .\""
+
 ## 🤝 Contribute [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
 If you are interested in participating in joint development, PR and Forks are welcome!
