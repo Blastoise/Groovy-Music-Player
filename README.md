@@ -43,7 +43,7 @@ Download from [GitHub Releases](https://github.com/Blastoise/Groovy-Music-Player
 ## Windows
 
 It is recommended to install Groovy Music Player using the installation package ([Groovy.Music.Player.Setup.0.1.0.exe](https://github.com/Blastoise/Groovy-Music-Player/releases/download/v0.1.0/Groovy.Music.Player.Setup.0.1.0.exe)) for effortless installation.
-If you want to build from source code, please read the Build section.
+If you want to build from source code, please read the **Build** section.
 
 ## Linux
 
@@ -56,7 +56,14 @@ You can download the AppImage (for all Linux distributions) to install Groovy Mu
 - Then run the following command to install Groovy Music Player:
   > curl -s https://gist.githubusercontent.com/Blastoise/355eba8386ff025a5b2706c701c2f5b5/raw/bb26c797f69982ecb03d44e2c34793c4a913c91f/install.sh | bash
 
-If you want to build from source code, please read the Build section.
+If you want to build from source code, please read the **Build** section.
+
+### Linux Uninstalling Instructions
+
+- First install cURL using the following command:
+  > sudo apt install curl
+- Then run the following command to uninstall Groovy Music Player:
+  > curl -s https://gist.githubusercontent.com/Blastoise/597cfa7420ed8bb2043449107d4a34d3/raw/63bfe9989c2d83a7e07e0c650eb20a7cec026dfd/uninstall.sh | bash
 
 #### AppImage
 The latest version of Groovy Music Player AppImage requires you to manually perform desktop integration. Please check the documentation of [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher).
